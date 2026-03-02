@@ -1,3 +1,4 @@
 pytest
 pytest-metadata
 selenium
+webdriver-manager
