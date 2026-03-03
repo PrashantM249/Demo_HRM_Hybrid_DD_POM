@@ -3,3 +3,4 @@ pytest-metadata
 selenium
 webdriver-manager
 openpyxl
+pytest-html
