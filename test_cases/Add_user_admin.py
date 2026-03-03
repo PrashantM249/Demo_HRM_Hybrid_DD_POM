@@ -1,12 +1,16 @@
+from logging import Logger
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from base_page.login_base_page import login_base_page
 from base_page.sidebar_base_page import sidebar_base_page as Sidebar
 from utilities import read_properties
+from utilities.custom_logger import Log_Maker
 from utilities.read_properties import Read_Config
 from utilities import excel_utilities
 import time
+
 import os
 from datetime import datetime
 import pytest
@@ -15,6 +19,7 @@ import pytest
 class TestLogin:
     Add_user = ".//test_data//Add_User.xlsx"
     pathexcel = ".//test_data//Admin_login.xlsx"
+    logger = Log_Maker.log_gen()
 
     def setup_method(self):
         """Setup method that runs before each test"""
@@ -46,12 +51,13 @@ class TestLogin:
         self.employee_admin_password = excel_utilities.read_excel(self.Add_user, "Sheet1", 3, 3)
         self.employee_admin_confirm_password = excel_utilities.read_excel(self.Add_user, "Sheet1", 3, 4)
 
-
+        self.logger.info("************login start**************")
         # Create login_base_page instance and perform login
         login_page = login_base_page(self.driver)
         login_page.enter_username().send_keys(self.username_excel)
         login_page.enter_password().send_keys(self.userpass_excel)
         login_page.click_login()
+        self.logger.info("************click login**************")
         profile = Sidebar(self.driver)
         profile.click_admin()
         time.sleep(2)
